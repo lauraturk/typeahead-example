@@ -1,0 +1,27 @@
+.typeahead--wrapper {
+    height: var(--space-size-lg);
+    min-height: 40px;
+    /* max-width: 600px; */
+    display: flex;
+    gap: var(--space-size-xs);
+}
+
+.typeahead--input {
+    flex-grow: 1;
+    border: 2px solid var(--color-input-border-primary);
+    border-radius: var(--radius-primary);
+    padding: var(--space-size-xs);
+}
+
+.typeahead--input::placeholder {
+    color: var(--color-input-border-primary);
+    font: 1rem var(--font-family);
+}
+
+.typeahead--suggest-wrapper {
+    color: var(--color-input-border-primary);
+}
+
+.typeahead--suggest-highlight {
+    color: var(--color-text-main);
+}
