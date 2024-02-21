@@ -1,9 +1,30 @@
+.form--wrapper {
+    /* display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-size-xs); */
+    position: relative;
+    max-width: 400px;
+    min-width: 350px;
+}
+
+.form--wrapper button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .typeahead--wrapper {
+    display: inline-block;
     height: var(--space-size-lg);
     min-height: 40px;
-    /* max-width: 600px; */
-    display: flex;
-    gap: var(--space-size-xs);
+    padding-right: var(--space-size-xs);
+    /* display: flex;
+    flex-direction: column;
+    gap: 0; */
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .typeahead--input {
@@ -18,8 +39,20 @@
     font: 1rem var(--font-family);
 }
 
+.typeahead--input-active {
+    border-radius: var(--radius-primary) var(--radius-primary) 0 0;
+    border-bottom: 0px;
+}
+
 .typeahead--suggest-wrapper {
+    border: 2px solid var(--color-input-border-primary);
+    border-radius: 0 0 var(--radius-primary) var(--radius-primary);
     color: var(--color-input-border-primary);
+
+    /* might be useful to pull into a reset class for all UL */
+    list-style-type: none;
+    padding-left: var(--space-size-xs);
+    margin-block-start: 0;
 }
 
 .typeahead--suggest-highlight {

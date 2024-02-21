@@ -8,7 +8,9 @@ const StyledWord = ({ str, i, length }) => {
   return (
     <p>
       {str.substring(i, -1)}
-      <span className="typeahead--suggest-highlight">{str.substring(i, i + length)}</span>
+      <span className="typeahead--suggest-highlight">
+        {str.substring(i, i + length)}
+      </span>
       {str.substring(i + length)}
     </p>
   );
@@ -20,35 +22,46 @@ const TypeAhead = ({ data, placeholderText = "First name", ctaText }) => {
 
   const handleSearchSuggest = ({ target }) => {
     setSearch(target.value);
-    const suggestions = data.map((s) => {
-      const i = s.toLowerCase().indexOf(target.value);
-      if (target.value && i !== -1) {
-        return (
-          <li>
-            <StyledWord str={s} i={i} length={target.value.length} />
+    const suggestions = data.reduce((list, s) => {
+      const matchIndex = s.toLowerCase().indexOf(target.value);
+      if (target.value && matchIndex !== -1) {
+        list.push(
+          <li role="option" id={`suggest-item-${list.length}`}>
+            <StyledWord str={s} i={matchIndex} length={target.value.length} />
           </li>
         );
       }
-      return;
-    });
+      return list;
+    }, []);
     setSuggestList(suggestions);
   };
 
   return (
-    <div className="typeahead--wrapper">
-      <input
-        onChange={(e) => handleSearchSuggest(e)}
-        placeholder={placeholderText}
-        name="search"
-        role="search"
-        className="typeahead--input"
-        value={search}
-      />
-      {suggestList.length ? (
-        <ul className="typeahead--suggest-wrapper">{suggestList}</ul>
-      ) : null}
+    <form className="form--wrapper">
+      <div className="typeahead--wrapper">
+        <input
+          onChange={(e) => handleSearchSuggest(e)}
+          placeholder={placeholderText}
+          name="search"
+          role="search"
+          className={`typeahead--input ${
+            suggestList.length ? `typeahead--input-active` : ""
+          }`}
+          value={search}
+        />
+        {suggestList.length > 0 ? (
+          <ul
+            tabIndex="0"
+            role="listbox"
+            aria-activedescendant="suggest-item-0"
+            className="typeahead--suggest-wrapper"
+          >
+            {suggestList}
+          </ul>
+        ) : null}
+      </div>
       <Button text={ctaText} />
-    </div>
+    </form>
   );
 };
 
