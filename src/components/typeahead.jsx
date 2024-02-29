@@ -8,13 +8,19 @@ const StyledWord = ({ str, i, length }) => {
   return (
     <p>
       {str.substring(i, -1)}
-      <span className="typeahead--suggest-highlight">{str.substring(i, i + length)}</span>
+      <span className="typeahead--suggest-highlight">
+        {str.substring(i, i + length)}
+      </span>
       {str.substring(i + length)}
     </p>
   );
 };
 
-const TypeAhead = ({ data, placeholderText = "First name", ctaText = "Search" }) => {
+const TypeAhead = ({
+  data,
+  placeholderText = "First name",
+  ctaText = "Search",
+}) => {
   const [suggestList, setSuggestList] = useState("");
   const [search, setSearch] = useState("");
 
@@ -47,16 +53,18 @@ const TypeAhead = ({ data, placeholderText = "First name", ctaText = "Search" })
           }`}
           value={search}
         />
-        {suggestList.length > 0 ? (
-          <ul
-            tabIndex="0"
-            role="listbox"
-            aria-activedescendant="suggest-item-0"
-            className="typeahead--suggest-wrapper"
-          >
-            {suggestList}
-          </ul>
-        ) : null}
+        <ul
+          tabIndex="0"
+          role="listbox"
+          aria-activedescendant="suggest-item-0"
+          aria-hidden={suggestList.length ? "false" : "true"}
+          className={`typeahead--suggest-wrapper ${
+            !suggestList.length ? `typeahead--suggest-wrapper-empty` : ""
+          }`}
+          data-testid="suggestList"
+        >
+          {suggestList.length > 0 ? suggestList : null}
+        </ul>
       </div>
       <Button data-testid="submitBtn" text={ctaText} />
     </form>

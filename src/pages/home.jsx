@@ -18,7 +18,7 @@ const homeData = [
 const Home = () => {
   return (
     <div>
-      <TypeAhead data={homeData} ctaText={"Search"} />
+      <TypeAhead data={homeData} />
     </div>
   )
 }

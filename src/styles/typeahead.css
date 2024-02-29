@@ -22,6 +22,10 @@
     color: var(--color-input-border-primary);
 }
 
+.typeahead--suggest-wrapper-empty {
+    display: none;
+}
+
 .typeahead--suggest-highlight {
     color: var(--color-text-main);
 }
