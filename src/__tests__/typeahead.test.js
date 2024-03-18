@@ -1,5 +1,5 @@
 import React from "react"
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom'
 import TypeAhead from "../components/typeahead"
 
@@ -29,13 +29,24 @@ it('should render an alternate button text', () => {
 
 it('with no input, the search suggest should be empty', () => {
     render(<TypeAhead data={mockData} />)
-    expect(screen.getByTestId("suggestList")).toHaveClass("typeahead--suggest-wrapper-empty")
-    expect(screen.getByTestId("suggestList").getAttribute("aria-hidden")).toEqual("true")
+    expect(screen.getByRole("listbox")).toHaveClass("typeahead--suggest-wrapper-empty")
+    expect(screen.getByRole("listbox").getAttribute("aria-hidden")).toEqual("true")
 })
 
-xit('with text, the search suggest should be visible', () => {
+it('with text, the search suggest should be visible', () => {
     render(<TypeAhead data={mockData} />)
-    const inputField = screen.getByLabelText("search").inputMode
-    expect(screen.getByTestId("suggestList")).toHaveClass("typeahead--suggest-wrapper-empty")
-    expect(screen.getByTestId("suggestList").getAttribute("aria-hidden")).toEqual("true")
+    const inputField = screen.getByLabelText("search")
+    expect(screen.getByRole("listbox")).toHaveClass("typeahead--suggest-wrapper-empty")
+    expect(screen.getByRole("listbox").getAttribute("aria-hidden")).toEqual("true")
+    fireEvent.change(inputField, { target: {value: "de"}})
+    expect(screen.getByRole("listbox")).toHaveClass("typeahead--suggest-wrapper")
+    expect(screen.getByRole("listbox").getAttribute("aria-hidden")).toEqual("false")
+})
+
+xit('search suggestions only include search strings', () => {
+    render(<TypeAhead data={mockData} />)
+    const inputField = screen.getByLabelText("search")
+    fireEvent.change(inputField, { target: {value: "de"}})
+    expect(screen.getByRole("listbox")).toHaveLength(2)
+    expect(screen.getByRole("listbox").getAttribute("aria-hidden")).toEqual("false")
 })

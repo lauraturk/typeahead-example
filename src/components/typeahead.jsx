@@ -30,7 +30,7 @@ const TypeAhead = ({
       const i = s.toLowerCase().indexOf(target.value);
       if (target.value && i !== -1) {
         return (
-          <li>
+          <li key={i}>
             <StyledWord str={s} i={i} length={target.value.length} />
           </li>
         );
@@ -41,33 +41,34 @@ const TypeAhead = ({
   };
 
   return (
-    <form className="form--wrapper">
-      <div className="typeahead--wrapper">
+    <>
+      <form className="form--wrapper" role="search">
         <input
           onChange={(e) => handleSearchSuggest(e)}
           placeholder={placeholderText}
           name="search"
           role="search"
+          aria-label="search"
           className={`typeahead--input ${
             suggestList.length ? `typeahead--input-active` : ""
           }`}
           value={search}
         />
-        <ul
-          tabIndex="0"
-          role="listbox"
-          aria-activedescendant="suggest-item-0"
-          aria-hidden={suggestList.length ? "false" : "true"}
-          className={`typeahead--suggest-wrapper ${
-            !suggestList.length ? `typeahead--suggest-wrapper-empty` : ""
-          }`}
-          data-testid="suggestList"
-        >
-          {suggestList.length > 0 ? suggestList : null}
-        </ul>
-      </div>
-      <Button data-testid="submitBtn" text={ctaText} />
-    </form>
+        <Button data-testid="submitBtn" text={ctaText} />
+      </form>
+      <ul
+        className="typeahead--wrapper"
+        tabIndex="0"
+        role="listbox"
+        aria-activedescendant="suggest-item-0"
+        aria-hidden={suggestList.length ? "false" : "true"}
+        className={`typeahead--suggest-wrapper ${
+          !suggestList.length ? `typeahead--suggest-wrapper-empty` : ""
+        }`}
+      >
+        {suggestList.length > 0 ? suggestList : null}
+      </ul>
+    </>
   );
 };
 
