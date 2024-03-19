@@ -1,22 +1,49 @@
 import * as React from "react";
-/* ADD IMPORTS FROM TODO ON THE NEXT LINE */
+import TypeAhead from "../components/typeahead";
 
+const aboutData = [
+  "Alexa",
+  "Amber",
+  "Benjamin",
+  "Beyoncé",
+  "Cameron",
+  "Dennis",
+  "Emily",
+  "François",
+  "Gonzalo",
+  "Henry",
+  "Icarus",
+  "Jean-Fredirec",
+  "Jessica",
+  "John-Jefferson",
+  "Kenneth",
+  "Katie",
+  "Laura",
+  "Mateo",
+  "Maximina",
+  "Madison",
+  "Nicholas",
+  "Olivero",
+  "Pamela",
+  "Pablo",
+  "Quinten",
+  "Rodrigo",
+  "Stella",
+  "Tomas",
+  "Usher",
+  "Veronica",
+  "Washington",
+  "Xochitl",
+  "Yvonne",
+  "Zenon"
+]
 
-/**
-* The About function defines the component that makes up the About page
-* This component is attached to the /about path in router.jsx
-*/
-
-export default function About() {
-  /* DECLARE STYLE AND TRIGGER FOR WIGGLE EFFECT FROM TODO ON NEXT LINE */
-  
+const About = () => {
   return (
-    <div className="page">
-      {/* REPLACE H1 ELEMENT BELOW WITH CODE FROM TODO */}
-      <h1 className="title">
-        Yellow
-      </h1>
-      
+    <div>
+      <TypeAhead data={aboutData} ctaText="Let's get the party started"/>
     </div>
-  );
+  )
 }
+
+export default About
