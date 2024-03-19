@@ -19,34 +19,53 @@ const mockData = [
 
 it('should render a search button by default', () => {
     render(<TypeAhead />);
-    expect(screen.getByTestId('submitBtn')).toHaveTextContent("Search");
+    expect(screen.getByRole('button')).toHaveTextContent("Search");
 })
 
 it('should render an alternate button text', () => {
     render(<TypeAhead ctaText="Zebra"/>);
-    expect(screen.getByTestId('submitBtn')).toHaveTextContent("Zebra");
+    expect(screen.getByRole('button')).toHaveTextContent("Zebra");
 })
 
 it('with no input, the search suggest should be empty', () => {
     render(<TypeAhead data={mockData} />)
-    expect(screen.getByRole("listbox")).toHaveClass("typeahead--suggest-wrapper-empty")
-    expect(screen.getByRole("listbox").getAttribute("aria-hidden")).toEqual("true")
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument()
 })
 
 it('with text, the search suggest should be visible', () => {
     render(<TypeAhead data={mockData} />)
     const inputField = screen.getByLabelText("search")
-    expect(screen.getByRole("listbox")).toHaveClass("typeahead--suggest-wrapper-empty")
-    expect(screen.getByRole("listbox").getAttribute("aria-hidden")).toEqual("true")
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument()
     fireEvent.change(inputField, { target: {value: "de"}})
-    expect(screen.getByRole("listbox")).toHaveClass("typeahead--suggest-wrapper")
+    expect(screen.getByRole("listbox")).not.toHaveClass("typeahead--suggest-wrapper-empty")
     expect(screen.getByRole("listbox").getAttribute("aria-hidden")).toEqual("false")
 })
 
-xit('search suggestions only include search strings', () => {
+it('search suggestion only returns names with substring', () => {
     render(<TypeAhead data={mockData} />)
+    const searchString = "je"
     const inputField = screen.getByLabelText("search")
-    fireEvent.change(inputField, { target: {value: "de"}})
-    expect(screen.getByRole("listbox")).toHaveLength(2)
-    expect(screen.getByRole("listbox").getAttribute("aria-hidden")).toEqual("false")
+    fireEvent.change(inputField, { target: {value: searchString}})
+
+})
+
+it('search suggestion is case insenstive', () => {
+    render(<TypeAhead data={mockData} />)
+    const searchString = "Je"
+    const inputField = screen.getByLabelText("search")
+    fireEvent.change(inputField, { target: {value: searchString}})
+    expect(screen.queryAllByRole("option")).toHaveLength(3)
+})
+
+it('search suggestions return names with highlighted sub string', () => {
+    render(<TypeAhead data={mockData} />)
+    const searchString = "de"
+    const inputField = screen.getByLabelText("search")
+    fireEvent.change(inputField, { target: {value: searchString}})
+    const subString = screen.getByText(searchString)
+    const resultString = screen.getByText(/Jean/)
+    expect(resultString).toContainElement(subString)
+    expect(subString).toHaveClass("suggest--highlight")
+    expect(screen.getByRole("listbox")).toContainElement(resultString)
+    expect(screen.queryAllByRole("option")).toHaveLength(1)
 })

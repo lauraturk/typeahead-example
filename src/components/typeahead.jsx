@@ -8,9 +8,9 @@ const StyledWord = ({ str, i, length }) => {
   return (
     <p>
       {str.substring(i, -1)}
-      <span className="typeahead--suggest-highlight">
+      <em className="suggest--highlight">
         {str.substring(i, i + length)}
-      </span>
+      </em>
       {str.substring(i + length)}
     </p>
   );
@@ -21,27 +21,36 @@ const TypeAhead = ({
   placeholderText = "First name",
   ctaText = "Search",
 }) => {
-  const [suggestList, setSuggestList] = useState("");
+  const [suggestList, setSuggestList] = useState([]);
   const [search, setSearch] = useState("");
+  const [activeList, setActiveList] = useState(false);
 
   const handleSearchSuggest = ({ target }) => {
     setSearch(target.value);
-    const suggestions = data.map((s) => {
-      const i = s.toLowerCase().indexOf(target.value);
-      if (target.value && i !== -1) {
-        return (
-          <li key={i}>
-            <StyledWord str={s} i={i} length={target.value.length} />
+    
+    const suggestions = data.reduce((list, s, i) => {
+      const matchIndex = s.toLowerCase().indexOf(target.value.toLowerCase());
+      if (target.value && matchIndex !== -1) {
+        list.push(
+          <li key={i} role="option" id={`suggest-item-${0}`}>
+            <StyledWord str={s} i={matchIndex} length={target.value.length} />
           </li>
         );
       }
-      return;
-    });
-    setSuggestList(suggestions);
+      return list;
+    }, []);
+    
+    if (suggestions.length) {
+      setActiveList(true)
+      setSuggestList(suggestions);
+    } else {
+      setActiveList(false)
+      setSuggestList([])
+    }
   };
 
   return (
-    <>
+    <div className="typeahead--wrapper">
       <form className="form--wrapper" role="search">
         <input
           onChange={(e) => handleSearchSuggest(e)}
@@ -49,26 +58,25 @@ const TypeAhead = ({
           name="search"
           role="search"
           aria-label="search"
-          className={`typeahead--input ${
-            suggestList.length ? `typeahead--input-active` : ""
+          className={`form--input ${
+            activeList ? `form--input-active` : ""
           }`}
           value={search}
         />
-        <Button data-testid="submitBtn" text={ctaText} />
+        <Button text={ctaText} disabled={!activeList} />
       </form>
       <ul
-        className="typeahead--wrapper"
         tabIndex="0"
         role="listbox"
         aria-activedescendant="suggest-item-0"
-        aria-hidden={suggestList.length ? "false" : "true"}
-        className={`typeahead--suggest-wrapper ${
-          !suggestList.length ? `typeahead--suggest-wrapper-empty` : ""
+        aria-hidden={!activeList}
+        className={`suggest--wrapper ${
+          !activeList ? `suggest--wrapper-empty` : ""
         }`}
       >
-        {suggestList.length > 0 ? suggestList : null}
+        {activeList ? suggestList : null}
       </ul>
-    </>
+    </div>
   );
 };
 
