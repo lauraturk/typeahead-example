@@ -2,48 +2,38 @@ import * as React from "react";
 import TypeAhead from "../components/typeahead";
 
 const aboutData = [
-  "Alexa",
-  "Amber",
-  "Benjamin",
-  "Beyoncé",
-  "Cameron",
-  "Dennis",
-  "Emily",
-  "François",
-  "Gonzalo",
-  "Henry",
-  "Icarus",
-  "Jean-Fredirec",
-  "Jessica",
-  "John-Jefferson",
-  "Kenneth",
-  "Katie",
-  "Laura",
-  "Mateo",
-  "Maximina",
-  "Madison",
-  "Nicholas",
-  "Olivero",
-  "Pamela",
-  "Pablo",
-  "Quinten",
-  "Rodrigo",
-  "Stella",
-  "Tomas",
-  "Usher",
-  "Veronica",
-  "Washington",
-  "Xochitl",
-  "Yvonne",
-  "Zenon"
-]
+  "Aardvark",
+  "Aardwolf",
+  "Abyssinian",
+  "Abyssinian Guinea Pig",
+  "Acadian Flycatcher",
+  "Beluga Sturgeon",
+  "Bengal Tiger",
+  "Bergamasco",
+  "Berger Blanc Suisse",
+  "Berger Picard",
+  "Bernedoodle",
+  "Bernese Mountain Dog",
+  "Bernese Mountain Dog Mix",
+  "Bernese Shepherd",
+  "Betta Fish (Siamese Fighting Fish)",
+  "Flying Fish",
+  "Flying Lemur",
+  "Flying Snake",
+  "Flying Squirrel",
+  "Football Fish",
+  "Forest Cobra",
+  "Forest Cuckoo Bumblebee",
+  "Formosan Mountain Dog",
+  "Fossa",
+];
 
 const About = () => {
   return (
     <div>
-      <TypeAhead data={aboutData} ctaText="Let's get the party started"/>
+      <TypeAhead data={aboutData} ctaText="Search Animals" />
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default About;
