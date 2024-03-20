@@ -2,23 +2,46 @@ import * as React from "react";
 import TypeAhead from "../components/typeahead";
 
 const homeData = [
-  "Jean-Frederic",
-  "Jonathan",
+  "Alexa",
+  "Amber",
+  "Benjamin",
+  "Beyoncé",
+  "Cameron",
+  "Dennis",
+  "Emily",
+  "François",
+  "Gonzalo",
+  "Henry",
+  "Icarus",
+  "Jean-Fredirec",
   "Jessica",
-  "Dominic",
   "John-Jefferson",
-  "Cathryn",
-  "Kaelig",
-  "Monica",
-  "Cynthia",
-  "Peter",
-  "Justin"
+  "Kenneth",
+  "Katie",
+  "Laura",
+  "Mateo",
+  "Maximina",
+  "Madison",
+  "Nicholas",
+  "Olivero",
+  "Pamela",
+  "Pablo",
+  "Quinten",
+  "Rodrigo",
+  "Stella",
+  "Tomas",
+  "Usher",
+  "Veronica",
+  "Washington",
+  "Xochitl",
+  "Yvonne",
+  "Zenon"
 ]
 
 const Home = () => {
   return (
     <div>
-      <TypeAhead data={homeData} ctaText={"Search"} />
+      <TypeAhead data={homeData} />
     </div>
   )
 }

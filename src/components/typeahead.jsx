@@ -1,53 +1,96 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import Button from "./button";
+import { SearchItem } from "./SearchItem";
 
 import "../styles/typeahead.css";
 
-const StyledWord = ({ str, i, length }) => {
-  return (
-    <p>
-      {str.substring(i, -1)}
-      <span className="typeahead--suggest-highlight">{str.substring(i, i + length)}</span>
-      {str.substring(i + length)}
-    </p>
-  );
-};
-
-const TypeAhead = ({ data, placeholderText = "First name", ctaText }) => {
-  const [suggestList, setSuggestList] = useState("");
+const TypeAhead = ({
+  data,
+  placeholderText = "First name",
+  ctaText = "Search",
+}) => {
+  const [suggestList, setSuggestList] = useState([]);
   const [search, setSearch] = useState("");
+  const [activeList, setActiveList] = useState(false);
+
+  const resetAll = () => {
+    setSuggestList([]);
+    setSearch("")
+    setActiveList(false)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`Great choice! Hang tight, we're looking for ${search}!`)
+    resetAll()
+  };
 
   const handleSearchSuggest = ({ target }) => {
     setSearch(target.value);
-    const suggestions = data.map((s) => {
-      const i = s.toLowerCase().indexOf(target.value);
-      if (target.value && i !== -1) {
-        return (
-          <li>
-            <StyledWord str={s} i={i} length={target.value.length} />
-          </li>
+
+    const suggestions = data.reduce((list, name, i) => {
+      const matchIndex = name.toLowerCase().indexOf(target.value.toLowerCase());
+      if (target.value && matchIndex !== -1) {
+        const newIndex = list.length;
+        list.push(
+          <SearchItem
+            key={i}
+            i={newIndex}
+            str={name}
+            matchIndex={matchIndex}
+            matchLength={target.value.length}
+            handleSelect={handleSelect}
+          />
         );
       }
-      return;
-    });
-    setSuggestList(suggestions);
+      return list;
+    }, []);
+
+    if (suggestions.length) {
+      setActiveList(true);
+      setSuggestList(suggestions);
+    } else {
+      setActiveList(false);
+      setSuggestList([]);
+    }
+  };
+
+  const handleSelect = (str) => {
+    if (str) setSearch(str);
+    return;
   };
 
   return (
     <div className="typeahead--wrapper">
-      <input
-        onChange={(e) => handleSearchSuggest(e)}
-        placeholder={placeholderText}
-        name="search"
-        role="search"
-        className="typeahead--input"
-        value={search}
-      />
-      {suggestList.length ? (
-        <ul className="typeahead--suggest-wrapper">{suggestList}</ul>
-      ) : null}
-      <Button text={ctaText} />
+      <form className="form--wrapper" type="search" onSubmit={handleSubmit}>
+        <input
+          role="combobox"
+          onChange={(e) => handleSearchSuggest(e)}
+          placeholder={placeholderText}
+          aria-label="User search"
+          className={`form--input ${activeList ? `form--input-active` : ""}`}
+          value={search}
+          type="text"
+          aria-expanded={activeList}
+          aria-controls="suggest-popup"
+          aria-autocomplete="both"
+        />
+        <ul
+          id="suggest-popup"
+          aria-label="User search suggestions"
+          tabIndex={activeList ? 0 : undefined}
+          role="listbox"
+          aria-activedescendant="suggest-item-0"
+          aria-hidden={!activeList}
+          className={`suggest--wrapper ${
+            !activeList ? `suggest--wrapper-empty` : ""
+          }`}
+        >
+          {activeList ? suggestList : null}
+        </ul>
+        <Button text={ctaText} disabled={!activeList} />
+      </form>
     </div>
   );
 };

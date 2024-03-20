@@ -1,7 +1,7 @@
 .btn--primary {
     background-color: var(--color-btn-primary);
     border: none;
-    color: var(--color-btn-text-primary);
+    color: white;
     font-size: 1rem;
     font-family: var(--font-family);
     height: 100%;
@@ -9,4 +9,8 @@
     max-width: 300px;
     padding: 1rem 3rem;
     border-radius: var(--radius-primary);
+}
+
+.btn--primary:disabled {
+    opacity: 40%;
 }
