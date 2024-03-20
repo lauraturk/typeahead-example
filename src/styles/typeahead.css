@@ -52,6 +52,7 @@
     transition: text-decoration 1s ease;
     text-underline-offset: var(--space-size-xs);
     padding-block: var(--space-size-xs);
+    cursor: pointer;
 }
 
 .suggest--item:hover {
