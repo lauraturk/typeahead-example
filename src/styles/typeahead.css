@@ -4,9 +4,11 @@
 }
 
 .form--wrapper {
-    display: flex;
-    gap: var(--space-size-xs);
-    width: 500px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto;
+    column-gap: var(--space-size-xs);
+    max-width: 500px;
 }
 
 .form--input {
@@ -16,7 +18,7 @@
     border: 2px solid var(--color-input-border-primary);
     border-radius: var(--radius-primary);
     padding: var(--space-size-sm);
-    width: 60%;
+    /* width: 60%; */
 }
 
 .form--input::placeholder {
@@ -33,15 +35,30 @@
     color: var(--color-input-border-primary);
     border: 2px solid var(--color-input-border-primary);
     border-radius: 0 0 var(--radius-primary) var(--radius-primary);
-    width: 60%;
     padding-inline: var(--space-size-sm);
+    grid-row-start: 2;
 }
 
 .suggest--wrapper-empty {
     display: none;
 }
 
-.suggest--highlight {
+.suggest--item {
+    text-decoration: underline solid transparent;
+    transition: text-decoration 1s ease;
+    text-underline-offset: var(--space-size-xs);
+    padding-block: var(--space-size-xs);
+}
+
+.suggest--item:hover {
+    text-decoration: underline solid currentColor;
+}
+
+.suggest--item-active {
+    text-decoration: underline solid currentColor;
+}
+
+.suggest--item-highlight {
     font-style: normal;
     color: var(--color-text-main);
 }

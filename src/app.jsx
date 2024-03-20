@@ -36,7 +36,7 @@ export default function Home() {
         <div className="links">
           <Link href="/">Home</Link>
           <span className="divider">|</span>
-          <Link href="/about">About</Link>
+          <Link href="/zoo">Zoo</Link>
         </div>
       </footer>
     </Router>
