@@ -16,36 +16,41 @@ const TypeAhead = ({
 
   const resetAll = () => {
     setSuggestList([]);
-    setSearch("")
-    setActiveList(false)
-  }
+    setSearch("");
+    setActiveList(false);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Great choice! Hang tight, we're looking for ${search}!`)
-    resetAll()
+    alert(`Great choice! Hang tight, we're looking for ${search}!`);
+    resetAll();
   };
 
   const handleSearchSuggest = ({ target }) => {
     setSearch(target.value);
+    let suggestions = [];
 
-    const suggestions = data.reduce((list, name, i) => {
-      const matchIndex = name.toLowerCase().indexOf(target.value.toLowerCase());
-      if (target.value && matchIndex !== -1) {
-        const newIndex = list.length;
-        list.push(
-          <SearchItem
-            key={i}
-            i={newIndex}
-            str={name}
-            matchIndex={matchIndex}
-            matchLength={target.value.length}
-            handleSelect={handleSelect}
-          />
-        );
-      }
-      return list;
-    }, []);
+    if (target.value.length >= 2) {
+      data.reduce((list, name, i) => {
+        const matchIndex = name
+          .toLowerCase()
+          .indexOf(target.value.toLowerCase());
+        if (target.value && matchIndex !== -1) {
+          const newIndex = list.length;
+          list.push(
+            <SearchItem
+              key={i}
+              i={newIndex}
+              str={name}
+              matchIndex={matchIndex}
+              matchLength={target.value.length}
+              handleSelect={handleSelect}
+            />
+          );
+        }
+        return list;
+      }, suggestions);
+    }
 
     if (suggestions.length) {
       setActiveList(true);
