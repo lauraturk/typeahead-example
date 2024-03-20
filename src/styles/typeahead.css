@@ -5,10 +5,14 @@
 
 .form--wrapper {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
-    column-gap: var(--space-size-xs);
     max-width: 500px;
+    
+    @media(width >= 600px) {
+        column-gap: var(--space-size-xs);
+        grid-template-columns: 2fr 1fr;
+    }
 }
 
 .form--input {
