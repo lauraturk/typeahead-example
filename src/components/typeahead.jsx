@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 
 import Button from "./button";
-import { SearchItem } from "./SearchItem";
+import { SearchItem } from "./search-item";
 
 import "../styles/typeahead.css";
 
