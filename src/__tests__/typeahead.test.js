@@ -41,12 +41,12 @@ it('with text, the search suggest should be visible', () => {
     expect(screen.getByRole("listbox").getAttribute("aria-hidden")).toEqual("false")
 })
 
-it('search suggestion only returns names with substring', () => {
+xit('search suggestion only returns names with substring', () => {
     render(<TypeAhead data={mockData} />)
     const searchString = "je"
     const inputField = screen.getByLabelText("User search")
     fireEvent.change(inputField, { target: {value: searchString}})
-
+    // loop through list
 })
 
 it('search suggestion is case insenstive', () => {
@@ -78,4 +78,15 @@ it('sets the search value to the selected name', () => {
     const resultString = screen.getByText(/Jean/)
     fireEvent.click(resultString)
     expect(inputField).toHaveProperty("value", "Jean-Frederic")
+})
+
+it('it does not make suggestions based on one character', () =>{
+    render(<TypeAhead data={mockData} />)
+    const searchString = "d"
+    const moreSearchString = "de"
+    const inputField = screen.getByLabelText("User search")
+    fireEvent.change(inputField, { target: {value: searchString}})
+    expect(screen.getAllByRole).not.toContain("listbox")
+    fireEvent.change(inputField, { target: {value: moreSearchString}})
+    expect(screen.getByRole('listbox')).toBeInTheDocument()
 })
