@@ -76,6 +76,7 @@ const TypeAhead = ({
           aria-controls="suggest-popup"
           aria-autocomplete="both"
         />
+<<<<<<< Updated upstream
         <ul
           id="suggest-popup"
           aria-label="User search suggestions"
@@ -92,6 +93,21 @@ const TypeAhead = ({
         <Button text={ctaText} disabled={!activeList} />
       </form>
     </div>
+=======
+        {suggestList.length > 0 ? (
+          <ul
+            tabIndex="0"
+            role="listbox"
+            aria-activedescendant="suggest-item-0"
+            className="typeahead--suggest-wrapper"
+          >
+            {suggestList}
+          </ul>
+        ) : null}
+      </div>
+      <Button data-testid="submitBtn" text={ctaText} />
+    </form>
+>>>>>>> Stashed changes
   );
 };
 
